@@ -10,6 +10,7 @@
 |---|---|
 | 从股票日线算出行业读数 | [完整研究报告](docs/research.md) |
 | 核对券商、学术研究和开源项目的差异 | [证据与候选因子](docs/evidence.md) |
+| 查参考资料、项目及各自借鉴点 | [参考资料与项目](docs/sources.md) |
 | 在 Excel 里查看分子分母、分位和缺数处理 | [研究台账](artifacts/research-ledger.xlsx)，先看「结构对照」，再看「完整复算」 |
 | 快速理解同热度的两种结构 | 下载 [互动演示](demo/index.html) 原文件后，在浏览器离线打开 |
 | 用 Python 复核教学数字 | [复算脚本](scripts/check_examples.py)，只用 Python 标准库 |
