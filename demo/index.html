@@ -25,7 +25,7 @@ small,figcaption{color:var(--steel)}#lesson{min-height:3em}#invalid{color:#94271
 <header><p>研究演示 · 合成假设</p><h1>A 股交易拥挤度复算</h1><p>比较同热度的两种成交结构，再用假想数字复算分母和退出容量。</p></header>
 <main><section class="panel" id="direction">
 <h2>热度相同，成交流向哪里</h2>
-<p>A、B 是观察前已固定的头部。两组行业总成交均为 100 亿元，四股自由流通市值相同。旧口径中的相对换手、无方向偏离和上涨成交占比都相同。</p>
+<p>A、B 是观察前已固定的头部。两组行业总成交均为 100 亿元，四股自由流通市值相同。三项等权对照所用的相对换手、无方向偏离和上涨成交占比都相同。</p>
 <div class="scenes" aria-label="选择成交结构"><button type="button" id="head-case" aria-pressed="true">头部成交偏高</button><button type="button" id="rest-case" aria-pressed="false">非头部成交偏高</button></div>
 <div class="table-wrap"><table><thead><tr><th>对照</th><th>头部成交份额</th><th>头部流通份额</th><th>头部超额</th></tr></thead><tbody>
 <tr><td>头部成交偏高</td><td>70%</td><td>50%</td><td>+20 个百分点</td></tr><tr><td>非头部成交偏高</td><td>30%</td><td>50%</td><td>−20 个百分点</td></tr></tbody></table></div>
@@ -64,7 +64,7 @@ small,figcaption{color:var(--steel)}#lesson{min-height:3em}#invalid{color:#94271
 <div class="row"><div class="metric"><span>退出容量天数</span><output id="d"></output></div><div class="track"><span class="bar"></span><span class="baseline"></span></div><small>持仓额 ÷（日均成交额 × 参与比例）</small></div>
 <figcaption>竖线为基准。本图各行独立缩放，纵向比较请看数值和单位。</figcaption></figure>
 <p id="lesson" aria-live="polite"></p></section></div>
-<section class="panel worked"><h2>旧版综合分的五日复算</h2>
+<section class="panel worked"><h2>三项等权对照的五日复算</h2>
 <p>一个行业有四只股票，前一交易日自由流通市值各 10 亿元。行业每日成交 100 亿元，市场成交 1,000 亿元，市场前一日流通市值 400 亿元。每日 A、C 上涨，B 下跌，D 持平。</p>
 <div class="table-wrap"><table><thead><tr><th>交易日</th><th>A、B、C、D 的成交</th><th>相对换手</th><th>成交偏离</th><th>上涨成交</th></tr></thead><tbody>
 <tr><td>t−4</td><td>32、30、20、18</td><td>1.00</td><td>0.12</td><td>52%</td></tr>
