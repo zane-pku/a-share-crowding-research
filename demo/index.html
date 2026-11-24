@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A 股拥挤度情景演示</title>
+<style>
+:root{color-scheme:light;--ink:#202020;--paper:#fafafa;--steel:#4b4b4b;--green:#404040;--sky:#b9f2e2;--line:#d1d1d1}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 KaiTi,"楷体",STKaiti,serif}
+header{background:#f2f2f2;color:#252525;padding:27px max(24px,calc((100vw - 1120px)/2)) 24px}
+header p{color:#454545;margin:.45rem 0}h1{font-weight:750;font-size:clamp(28px,4vw,44px);line-height:1.1;margin:.2em 0;letter-spacing:-.045em}
+main{max-width:1168px;margin:auto;padding:26px 24px 48px}.scenes{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+button{font:inherit;border:1px solid #78938e;background:white;color:var(--ink);padding:7px 15px;cursor:pointer;border-radius:3px}
+button[aria-pressed=true]{background:var(--green);color:white;border-color:var(--green)}
+:focus-visible{outline:3px solid #bd6a12;outline-offset:2px}
+.play{display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:28px;align-items:start}
+.panel{border-top:3px solid var(--green);padding:12px 0}h2{font-size:22px;margin:4px 0 12px}
+label{display:grid;grid-template-columns:minmax(0,1fr) 100px;gap:12px;align-items:center;margin:7px 0;padding:6px 0;border-bottom:1px solid var(--line);color:var(--steel)}
+input{font:inherit;width:100%;padding:5px;border:1px solid #819b95;background:white;color:var(--ink)}
+figure{margin:0;background:white;padding:16px 18px 11px;border-left:1px solid var(--line)}
+.row{padding:9px 0 12px;border-bottom:1px solid var(--line)}.row:last-child{border:0}.metric{display:flex;justify-content:space-between;gap:8px}
+output{font:700 21px/1.35 KaiTi,"楷体",STKaiti,serif;color:#222222}.track{height:12px;background:#eeeeee;position:relative}.bar{position:absolute;inset:0 auto 0 0;background:#777777;max-width:100%}.baseline{position:absolute;inset:-3px auto -3px;border-left:2px solid #222222}
+small,figcaption{color:var(--steel)}#lesson{min-height:3em}#invalid{color:#942716;min-height:1.65em;margin:3px 0}details{margin-top:24px;border-top:1px solid var(--line);padding-top:12px}summary{cursor:pointer;font-weight:700}
+@media(max-width:740px){header{padding-top:32px}main{padding-inline:18px}.play{grid-template-columns:1fr;gap:9px}figure{padding:12px}label{grid-template-columns:minmax(0,1fr) 90px}}
+@media print{header{padding:20px;background:white;color:var(--ink)}header p{color:var(--ink)}}
+
+.worked{margin-top:28px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:440px;background:white}th,td{padding:7px 10px;border-bottom:1px solid #ccc;text-align:left}
+</style>
+<header><p>研究演示 · 合成假设</p><h1>A 股交易拥挤度复算</h1><p>比较同热度的两种成交结构，再用假想数字复算分母和退出容量。</p></header>
+<main><section class="panel" id="direction">
+<h2>热度相同，成交流向哪里</h2>
+<p>A、B 是观察前已固定的头部。两组行业总成交均为 100 亿元，四股自由流通市值相同。旧口径中的相对换手、无方向偏离和上涨成交占比都相同。</p>
+<div class="scenes" aria-label="选择成交结构"><button type="button" id="head-case" aria-pressed="true">头部成交偏高</button><button type="button" id="rest-case" aria-pressed="false">非头部成交偏高</button></div>
+<div class="table-wrap"><table><thead><tr><th>对照</th><th>头部成交份额</th><th>头部流通份额</th><th>头部超额</th></tr></thead><tbody>
+<tr><td>头部成交偏高</td><td>70%</td><td>50%</td><td>+20 个百分点</td></tr><tr><td>非头部成交偏高</td><td>30%</td><td>50%</td><td>−20 个百分点</td></tr></tbody></table></div>
+<figure aria-label="头部实际成交份额与 50% 流通份额对照" style="margin-top:14px">
+<div class="metric"><span>当前情景的头部成交份额</span><output id="head-share">70%</output></div>
+<div class="track"><span class="bar" id="head-bar" style="width:70%"></span><span class="baseline" style="left:50%"></span></div>
+<figcaption>竖线是头部流通份额 50%。成交份额减流通份额为 <strong id="head-excess">+20 个百分点</strong>。</figcaption>
+</figure></section>
+<script>
+{
+ const headCases = [{id:"head-case",share:70,gap:"+20"},{id:"rest-case",share:30,gap:"−20"}];
+ const elem=id=>document.getElementById(id);
+ for(const entry of headCases){
+  elem(entry.id).addEventListener("click",()=>{
+   for(const other of headCases){elem(other.id).setAttribute("aria-pressed",String(other===entry));}
+   elem("head-share").value=entry.share+"%";
+   elem("head-bar").style.width=entry.share+"%";
+   elem("head-excess").textContent=entry.gap+" 个百分点";
+  });
+ }
+}
+</script>
+<h2 style="margin-top:36px">分母和退出容量的影响</h2>
+<nav class="scenes" aria-label="选择情景" id="scenes"></nav>
+<div class="play"><section class="panel"><h2>情景输入</h2>
+<label>板块成交额（亿元）<input id="sector" type="number" min=".01" step="any"></label>
+<label>市场成交额（亿元）<input id="market" type="number" min=".01" step="any"></label>
+<label>板块流通市值份额（%）<input id="cap" type="number" min=".01" max="100" step="any"></label>
+<label>拟退出资产的日均成交额（亿元）<input id="adv" type="number" min=".01" step="any"></label>
+<label>拟退出资产的持仓额（亿元）<input id="position" type="number" min="0" step="any"></label>
+<label>可参与成交比例（%）<input id="part" type="number" min=".01" max="100" step="any"></label>
+<p id="invalid" role="status"></p></section>
+<section class="panel"><h2>读数与基准</h2><figure id="chart" aria-label="三个指标，深色竖线代表基准">
+<div class="row"><div class="metric"><span>板块成交份额</span><output id="s"></output></div><div class="track"><span class="bar"></span><span class="baseline"></span></div><small>板块成交额 ÷ 市场成交额</small></div>
+<div class="row"><div class="metric"><span>相对换手</span><output id="q"></output></div><div class="track"><span class="bar"></span><span class="baseline"></span></div><small>成交份额 ÷ 流通市值份额</small></div>
+<div class="row"><div class="metric"><span>退出容量天数</span><output id="d"></output></div><div class="track"><span class="bar"></span><span class="baseline"></span></div><small>持仓额 ÷（日均成交额 × 参与比例）</small></div>
+<figcaption>竖线为基准。本图各行独立缩放，纵向比较请看数值和单位。</figcaption></figure>
+<p id="lesson" aria-live="polite"></p></section></div>
+<section class="panel worked"><h2>旧版综合分的五日复算</h2>
+<p>一个行业有四只股票，前一交易日自由流通市值各 10 亿元。行业每日成交 100 亿元，市场成交 1,000 亿元，市场前一日流通市值 400 亿元。每日 A、C 上涨，B 下跌，D 持平。</p>
+<div class="table-wrap"><table><thead><tr><th>交易日</th><th>A、B、C、D 的成交</th><th>相对换手</th><th>成交偏离</th><th>上涨成交</th></tr></thead><tbody>
+<tr><td>t−4</td><td>32、30、20、18</td><td>1.00</td><td>0.12</td><td>52%</td></tr>
+<tr><td>t−3</td><td>34、30、20、16</td><td>1.00</td><td>0.14</td><td>54%</td></tr>
+<tr><td>t−2</td><td>36、30、20、14</td><td>1.00</td><td>0.16</td><td>56%</td></tr>
+<tr><td>t−1</td><td>38、30、20、12</td><td>1.00</td><td>0.18</td><td>58%</td></tr>
+<tr><td>t</td><td>40、30、20、10</td><td>1.00</td><td>0.20</td><td>60%</td></tr>
+<tr><th colspan="2">五日均值</th><th>1.00</th><th>0.16</th><th>56%</th></tr>
+<tr><th colspan="2">历史中秩分位</th><th>50.00</th><th>81.25</th><th>75.00</th></tr></tbody></table></div>
+<ol><li>以 t 日为例，成交偏离为 0.5×(0.15＋0.05＋0.05＋0.15)＝0.20。上涨成交为 (40＋20)÷100＝60%。</li><li>对每个因子取完整五个交易日的均值。然后与假设的八个历史值比较，等值算半个。正式研究参考过去 252 个交易日，至少 200 个有效值。</li><li>三个分位等权平均为 <strong>68.75 分</strong>。完整八点历史样本和可编辑公式在 Excel「完整复算」。</li></ol>
+</section>
+
+<details><summary>研究说明与文件对应</summary><p>所有示例刻意改变一项或一组假设。容量天数用恒定日均成交和参与率作静态估算，方便解释流动性压力。它不包含价格冲击、真实交易数据或发生概率。Excel「演示复核」使用同一组数值，Python 附有算术自检。</p></details>
+</main>
+<script>
+const scenarios=[["\u57fa\u51c6", [100, 1000, 10, 20, 10, 10]], ["\u677f\u5757\u653e\u91cf", [150, 1000, 10, 25, 10, 10]], ["\u5e02\u573a\u7f29\u91cf", [100, 700, 10, 20, 10, 10]], ["\u884c\u4e1a\u4f53\u91cf\u6269\u5f20", [150, 1000, 15, 25, 10, 10]], ["\u627f\u63a5\u6536\u7f29", [100, 1000, 10, 8, 10, 5]]];
+const lessons=[
+ "基准的板块成交份额和流通市值份额都是 10%，相对换手为 1。",
+ "板块额从 100 升至 150，市场额和流通份额持平，成交份额与相对换手一同上升。",
+ "板块成交额仍为 100。市场缩量让成交份额与相对换手抬升，板块没有额外放量。",
+ "板块成交份额和流通市值份额都从 10% 升至 15%，相对换手保持 1。",
+ "成交份额和相对换手保持基准。日均成交额与可参与比例下降，容量天数从 5 拉长至 25。"];
+const by=id=>document.getElementById(id), inputs=["sector","market","cap","adv","position","part"].map(by);
+const markers=[.1,1,5], bounds=[.2,2,25], outputs=["s","q","d"].map(by);
+const bars=[...document.querySelectorAll(".bar")], lines=[...document.querySelectorAll(".baseline")];
+const fmt=(v,i)=>i===0?(v*100).toFixed(2)+"%":i===1?v.toFixed(2)+"×":v.toFixed(2)+" 天";
+function draw(){
+ const values=inputs.map(x=>x.valueAsNumber);
+ const [a,b,c,d,e,f]=values;
+ const valid=values.every(Number.isFinite)&&a>0&&b>=a&&c>0&&c<=100&&d>0&&e>=0&&f>0&&f<=100;
+ by("invalid").textContent=valid?"":"请检查数值。板块成交额不能超过市场额，百分比在 0 到 100 之间且须大于 0。";
+ const metrics=valid?[a/b,(a/b)/(c/100),e/(d*f/100)]:[0,0,0];
+ metrics.forEach((m,i)=>{
+  const max=Math.max(bounds[i],m*1.06);
+  outputs[i].value=valid?fmt(m,i):"—";
+  bars[i].style.width=(m/max*100)+"%";
+  lines[i].style.left=(markers[i]/max*100)+"%";
+ });
+}
+const buttons=scenarios.map(([name,values],i)=>{
+ const button=document.createElement("button");
+ button.type="button";button.textContent=name;
+ button.addEventListener("click",()=>{
+  buttons.forEach(b=>b.setAttribute("aria-pressed",String(b===button)));
+  inputs.forEach((x,j)=>x.value=values[j]);by("lesson").textContent=lessons[i];draw();
+ });
+ by("scenes").append(button);return button;
+});
+inputs.forEach(input=>input.addEventListener("input",()=>{
+ buttons.forEach(b=>b.setAttribute("aria-pressed","false"));
+ by("lesson").textContent="自定义假设。把读数与各行的基准竖线对照。";
+ draw();
+}));
+buttons[0].click();
+</script></html>
