@@ -2,7 +2,7 @@
 
 [返回仓库首页](../README.md) · [完整研究报告](research.md) · [证据与候选因子](evidence.md)
 
-索引按研究用途排列，共 **47 条**。同一报告的不同转载归为一条。研报原文、公开摘要、项目源码与界面能支持的结论各有边界，逐条标明。
+索引按研究用途排列，共 **49 条**。同一报告的不同转载归为一条。研报原文、公开摘要、项目源码与界面能支持的结论各有边界，逐条标明。
 
 ## 券商研报和团队公开稿
 
@@ -22,6 +22,7 @@
 | 申万宏源｜量化择时周报 | 2026-11-22 · Reportify 摘要 | 对照 20 日标准化后做 60 日排序的短周期方法。判读均线变化时检查移出窗口的旧观察。 | [查看](<https://reportify.cn/reports/1321959584277073920>) |
 | ETF 周度跟踪 | 2026-11-22 · Reportify 摘要 | 净申购和规模变化分别列报，后者包含净值变化。摘要适合做口径示例。 | [查看](<https://reportify.cn/reports/1321890135385706496>) |
 | 太平洋证券｜ETF 点评与行业热力图 | 2025-08-01 · 研报客收录，图表 3 | 参考将多行业、多交易日的拥挤变化放在同一张热力图。 | [查看](<https://pc.yanbaoke.cn/info/Q63otLvzhrCmG4mikeDC3K>) |
+| 中金｜行业轮动受轮动速度与集中度影响 | 2026-11-12 · 团队公开稿 | 参考将交易集中程度和行业间换位速度分别观察。框架阈值属于原报告定义。 | [查看](<https://finance.sina.com.cn/stock/stockzmt/2026-11-12/doc-iniymsin8583824.shtml>) |
 
 ## 论文和机构方法
 
@@ -35,6 +36,7 @@
 | Volpati 等｜Zooming In on Equity Factor Crowding | 2020 · 作者论文 | 真实同向交易需靠订单或逐笔证据。上涨日成交份额只作粗粒度代理。 | [查看](<https://arxiv.org/abs/2001.04185>) |
 | Ben-David 等｜Do ETFs Increase Volatility? | 工作论文 · 美国市场机制 | 用于理解 ETF 持有、套利及底层交易的联系。A 股行业参数须独立验证。 | [查看](<https://www.nber.org/system/files/working_papers/w20071/revisions/w20071.rev0.pdf>) |
 | Schwab Asset Management｜ETF 申赎机制 | 机构公开说明 | 区分一级市场份额创设或赎回、二级成交和净值变化。 | [查看](<https://www.schwabassetmanagement.com/content/understanding-etf-creation-and-redemption-mechanism?os=shmmfp>) |
+| Politis 与 Romano｜The Stationary Bootstrap | 1994 · 计量方法论文 | 为时序依赖下的分块重抽样提供方法参考。本研究另明确使用交易日整块保留行业截面。 | [查看](<https://doi.org/10.1080/01621459.1994.10476870>) |
 
 ## 看板、计算源码和公开快照
 
