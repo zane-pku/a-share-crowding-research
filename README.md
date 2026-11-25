@@ -4,17 +4,16 @@
 
 **研究状态**　已核对指标公式、合成样例及公开参考。实证部分给出完整检验设计，A 股样本外效果、阈值和权重仍待校准。
 
-## 阅读入口
+## 仓库导航
 
-| 你要做什么 | 打开 |
+| 入口 | 内容 |
 |---|---|
-| 从股票日线算出行业读数 | [完整研究报告](docs/research.md) |
-| 深查热度归因、头部结构误判和样本外验证 | [归因、误判与实证设计](docs/deep-dive.md) |
-| 核对券商、学术研究和开源项目的差异 | [证据与候选因子](docs/evidence.md) |
-| 查参考资料、项目及各自借鉴点 | [参考资料与项目](docs/sources.md) |
-| 在 Excel 里查看分子分母、分位和缺数处理 | [研究台账](artifacts/research-ledger.xlsx)，先看「结构对照」，再看「完整复算」 |
-| 快速理解同热度的两种结构 | 下载 [互动演示](demo/index.html) 原文件后，在浏览器离线打开 |
-| 用 Python 复核教学数字 | [复算脚本](scripts/check_examples.py)，只用 Python 标准库 |
+| [研究报告](docs/research.md) · [研究深化篇](docs/deep-dive.md) | 指标构建、样本口径、数据归因与样本外设计 |
+| [因子库](factors/README.md) · [因子字典](factors/catalog.csv) | 23 个因子与计算量，注明公式、字段、覆盖、单位及状态 |
+| [研究台账](artifacts/research-ledger.xlsx) · [离线演示](demo/index.html) | Excel 逐格复算与 HTML 情景。下载 HTML 后在浏览器打开 |
+| [参考资料与项目](docs/sources.md) · [证据与候选因子](docs/evidence.md) | 研报、论文、开源项目和可迁移边界 |
+
+`docs/` 放研究文档，`factors/` 放因子定义与计算，`artifacts/` 和 `demo/` 放可直接打开的材料，`scripts/` 和 `tests/` 放复核工具。
 
 ## 指标怎么读
 
@@ -40,6 +39,7 @@
 
 ## 本地复算
 
+    python -m unittest discover -s tests
     python scripts/check_examples.py --self-test
     python scripts/check_examples.py --direction-example
     python scripts/check_examples.py --research-example

@@ -2,7 +2,7 @@
 
 本报告把行业拥挤度拆为**交易有多热、成交偏向谁、上涨是否扩散、资金退出有多难**。主排序采用相对换手的历史分位。成交方向和退出约束保留原单位和覆盖，便于识别同样的热度背后截然不同的结构。
 
-[返回仓库首页](../README.md) · [证据与候选因子](evidence.md) · [归因、误判与实证设计](deep-dive.md) · [Excel 台账](../artifacts/research-ledger.xlsx)
+[返回仓库首页](../README.md) · [因子字典与参考计算](../factors/README.md) · [证据与候选因子](evidence.md) · [归因、误判与实证设计](deep-dive.md) · [Excel 台账](../artifacts/research-ledger.xlsx)
 
 ## 1. 研究对象和时间约束
 
